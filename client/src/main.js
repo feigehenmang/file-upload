@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import App from './App.vue'
+import Upload from './Upload.vue'
+// import App from './App.vue'
 import axios from 'axios'
 import './plugins/element.js'
 
@@ -21,5 +22,5 @@ Vue.prototype.$axios = request
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App),
+  render: h => h(Upload),
 }).$mount('#app')

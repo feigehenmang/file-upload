@@ -26,10 +26,10 @@
 
           </div>
       {{hashProgress}}
-    <div> 
+    <div>
       <el-button type="primary" @click="handleUpload">上 传</el-button>
     </div>
-        <div> 
+        <div>
       <el-button type="primary" @click="handleUpload1">慢启动上传</el-button>
     </div>
 
@@ -40,16 +40,16 @@
     <!-- 方块进度条 -->
 
       <div class="cube-container" :style="{width:cubeWidth+'px'}">
-        <div class="cube" 
+        <div class="cube"
 
-          v-for="chunk in chunks" 
+          v-for="chunk in chunks"
           :key="chunk.name">
-          <div           
+          <div
             :class="{
-            'uploading':chunk.progress>0&&chunk.progress<100, 
+            'uploading':chunk.progress>0&&chunk.progress<100,
             'success':chunk.progress==100,
             'error':chunk.progress<0,
-            }" 
+            }"
             :style="{height:chunk.progress+'%'}"
             >
             <i v-if="chunk.progress<100 &&chunk.progress>1" class="el-icon-loading" style="color:#F56C6C;"></i>
@@ -116,7 +116,7 @@ export default {
     bindPasteEvent(){
       this.$refs.article.addEventListener('paste',async e=>{
         const files = e.clipboardData.files
-        if(!files.length) return 
+        if(!files.length) return
         this.file = files[0]
         this.loading = true
         const ret = await this.handleUpload()
@@ -150,14 +150,14 @@ export default {
     handleFileChange(e) {
       const [file] = e.target.files;
       if (!file) return;
-     
+
       // if(file.size>CHUNK_SIZE){
       //   this.$message.error("请选择小于2M的文件");
       //   return;
       // }
       // if(!this.isImage(file)){
       //   this.$message.error("请选择正确的图片格式");
-      //   return 
+      //   return
       // }
 
       this.file = file;
@@ -227,7 +227,7 @@ export default {
       //                 .map(v=>v.charCodeAt())
       //                 .map(v=>v.toString(16))
       // console.log('gif头信息',tmp1)
-      
+
       // return ret ==='GIF89a' || ret==='GIF87a'
       // 文件头标识 (6 bytes) 47 49 46 38 39(37) 61
 
@@ -379,16 +379,16 @@ export default {
       });
     },
     async handleUpload1(){
-      // @todo数据缩放的比率 可以更平缓  
+      // @todo数据缩放的比率 可以更平缓
       // @todo 并发+慢启动
 
-      // 慢启动上传逻辑 
+      // 慢启动上传逻辑
       const file = this.file
       if (!file) return;
       const fileSize = file.size
-      let offset = 0.1*1024*1024 
+      let offset = 0.1*1024*1024
 
-      let cur = 0 
+      let cur = 0
       let count =0
       this.hash = await this.calculateHashSample();
 
@@ -412,7 +412,7 @@ export default {
 
         // 期望10秒一个切片
         let rate = time/10
-        // 速率有最大和最小 可以考虑更平滑的过滤 比如1/tan 
+        // 速率有最大和最小 可以考虑更平滑的过滤 比如1/tan
         if(rate<0.5) rate=0.5
         if(rate>2) rate=2
         // 新的切片大小等比变化
@@ -432,6 +432,7 @@ export default {
         this.$message.info("请选择文件");
         return;
       }
+      // 将文件切开
       let chunks = this.createFileChunk(this.file);
 
       // 计算hash 文件指纹标识
@@ -440,8 +441,8 @@ export default {
       // this.hash = await this.calculateHashWorker(chunks)
       // requestIdleCallback
       // this.hash = await this.calculateHashIdle(chunks)
-      
-      // 抽样哈希，牺牲一定的准确率 换来效率，hash一样的不一定是同一个文件， 但是不一样的一定不是 
+
+      // 抽样哈希，牺牲一定的准确率 换来效率，hash一样的不一定是同一个文件， 但是不一样的一定不是
       // 所以可以考虑用来预判
       this.hash = await this.calculateHashSample()
 
@@ -484,13 +485,13 @@ export default {
         const len = chunks.length
         let counter = 0
         // 全局开关
-        let isStop = false 
+        let isStop = false
 
 
         const start = async ()=>{
 
           if(isStop){
-            return 
+            return
           }
           const task = chunks.shift()
           if(task){
@@ -577,9 +578,9 @@ export default {
 </script>
 
 <style lang="stylus">
-.app>div 
+.app>div
   margin 50px
-#drag 
+#drag
   height 100px
   border 2px dashed #eee
   line-height 100px
@@ -594,7 +595,7 @@ img
   padding 10px
   width 300px
   background  #eee
-  img 
+  img
     width 200px
 
 .cube-container

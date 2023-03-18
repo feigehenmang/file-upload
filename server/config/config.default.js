@@ -18,6 +18,11 @@ module.exports = appInfo => {
     },
   }
   config.UPLOAD_DIR = path.resolve(__dirname, "..", "app/public"); // 大文件存储目录
-
+  config.static = {
+    prefix: '/static/',
+    dir: [
+      path.join(appInfo.baseDir, 'app/static')
+    ]
+  }
   return config;
 };
